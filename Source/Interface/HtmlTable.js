@@ -131,21 +131,35 @@ var HtmlTable = new Class({
 		};
 	},
 	
-	update : function(tr, row) {
-		var tds = tr.getChildren();
-		tds.each(function(td, index) {
-			var data = row[index],
+	update : function(tr, row, tag) {
+		var tds = tr.getChildren(tag || 'td');
+		row.each(function(data, index) {
+			var td = tds[index] || new Element(tag || 'td').inject(tr),
+				data = row[index],
 				content = (data ? data.content : '') || data,
 				type = typeOf(content);
 
-			if(data.properties) {
+			if(data && data.properties) {
 				td.set(data.properties);
 			}
 			
-			if (['element', 'array', 'collection', 'elements'].contains(type)) td.adopt(content);
+			if (['element', 'array', 'collection', 'elements'].contains(type)) {
+				td.empty();
+				td.adopt(content);
+			}
 			else td.set('html', content);
 		});
-	},
+		if(tds.length > row.count) {
+			for(var i = tds.length - 1;i >= row.count;i--) {
+				tds[i].destroy();
+				delete tds[i];
+			}
+		}
+		return {
+			tr: tr,
+			tds : tds
+		};
+	}
 
 });
 
