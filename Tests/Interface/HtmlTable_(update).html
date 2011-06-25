@@ -38,9 +38,6 @@ table.setHeaders(['column1','column2']);
 table.inject($('mt-content'));
 // push data to the table
 var row = table.push(['hello','world']);
-// this is the trouble spot, it removes the tbody tag from the table
-table.empty();
-// at this stage if you call table.build(), the below push will work
-// if you try to push rows into the table now it wont work as the tbody tag is missing
+// and change it
 table.update(row.tr, ['I','work']);
 </script>
