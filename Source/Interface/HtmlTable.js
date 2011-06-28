@@ -11,6 +11,7 @@ license: MIT-style license
 
 authors:
   - Aaron Newton
+  - Fred Cox
 
 requires:
   - Core/Options
@@ -116,62 +117,32 @@ var HtmlTable = new Class({
 		return this.update(new Element('tr', rowProperties).inject(target || this.body, where), row, tag);
 	},
 	
-	update : function(tr, row, tag) {
+	update: function(tr, row, tag){
 		var tds = tr.getChildren(tag || 'td');
-		row.each(function(data, index) {
+		row.each(function(data, index){
 			var td = tds[index] || new Element(tag || 'td').inject(tr),
 				content = (data ? data.content : '') || data,
 				type = typeOf(content);
 
-			if(data.properties) {
+			if (data && data.properties){
 				td.set(data.properties);
 			}
 			
-			if (['element', 'array', 'collection', 'elements'].contains(type)) {
+			if (['element', 'array', 'collection', 'elements'].contains(type)){
 				td.empty();
 				td.adopt(content);
 			}
 			else td.set('html', content);
 		});
-		if(tds.length > row.count) {
-			for(var i = tds.length - 1;i >= row.count;i--) {
-				tds[i].destroy();
-				delete tds[i];
-			}
+		
+		if (tds.length > row.count) for(var i = tds.length - 1;i >= row.count;i--){
+			tds[i].destroy();
+			delete tds[i];
 		}
+		
 		return {
 			tr: tr,
-			tds : tds
-		};
-	},
-	
-	update : function(tr, row, tag) {
-		var tds = tr.getChildren(tag || 'td');
-		row.each(function(data, index) {
-			var td = tds[index] || new Element(tag || 'td').inject(tr),
-				data = row[index],
-				content = (data ? data.content : '') || data,
-				type = typeOf(content);
-
-			if(data && data.properties) {
-				td.set(data.properties);
-			}
-			
-			if (['element', 'array', 'collection', 'elements'].contains(type)) {
-				td.empty();
-				td.adopt(content);
-			}
-			else td.set('html', content);
-		});
-		if(tds.length > row.count) {
-			for(var i = tds.length - 1;i >= row.count;i--) {
-				tds[i].destroy();
-				delete tds[i];
-			}
-		}
-		return {
-			tr: tr,
-			tds : tds
+			tds: tds
 		};
 	}
 });
