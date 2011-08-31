@@ -11,6 +11,7 @@ license: MIT-style license
 
 authors:
   - Aaron Newton
+  - Fred Cox
 
 requires:
   - Core/Options
