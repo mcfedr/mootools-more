@@ -20,7 +20,7 @@ Fx.Elements = new Class({
 	Extends: elementsCSS2,
 
 	check: function(obj){
-		return (this.css3Supported && !this.boundComplete && Object.every(obj, function(properties) {
+		return (this.css3Supported && !this.boundComplete && Object.every(obj, function(properties, key) {
 			if(properties && this.elements[key]) {
 				return this.animatable().containsArray(Object.keys(properties));
 			}
