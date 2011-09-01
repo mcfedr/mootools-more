@@ -48,6 +48,7 @@ sources:
   - "Source/Forms/Form.Validator.Extras.js"
   - "Source/Forms/OverText.js"
   - "Source/Fx/Fx.Elements.js"
+  - "Source/Fx/Fx.Elements.CSS3.js"
   - "Source/Fx/Fx.Accordion.js"
   - "Source/Fx/Fx.Move.js"
   - "Source/Fx/Fx.Reveal.js"
