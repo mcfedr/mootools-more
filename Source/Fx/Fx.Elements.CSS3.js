@@ -8,7 +8,7 @@ copyright: Copyright (c) 2010, Dipl.-Ing. (FH) André Fiedler <kontakt at visual
 copyright: Copyright (c) 2011 Fred Cox mcfedr@gmail.com
 authors: [Fred Cox, André Fiedler, eskimoblood]
 
-requires: [Core/Fx.CSS3Funcs, Fx.Elements]
+requires: [Core/Fx.CSS3Funcs, Core/Fx.Morph, Fx.Elements]
 
 provides: [Fx.Elements.CSS3]
 ...
@@ -20,7 +20,12 @@ Fx.Elements = new Class({
 	Extends: elementsCSS2,
 
 	check: function(obj){
-		return (this.css3Supported && !this.boundComplete && Object.every(obj, function(properties) { return this.animatable().containsArray(Object.keys(properties)); }, this)) || this.parent();
+		return (this.css3Supported && !this.boundComplete && Object.every(obj, function(properties) {
+			if(properties && this.elements[key]) {
+				return this.animatable().containsArray(Object.keys(properties));
+			}
+			return true;
+		}, this)) || this.parent();
 	},
 
 	start: function(obj){
@@ -35,7 +40,7 @@ Fx.Elements = new Class({
 			}.bind(this);
 		
 			Object.each(obj, function(properties, key) {
-				if(this.elements[key]) {
+				if(properties && this.elements[key]) {
 					new Fx.Morph(this.elements[key], Object.merge({}, this.options, {
 						onComplete: complete
 					})).start(properties);
